@@ -1,6 +1,6 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
-import { Types } from '../';
+import { Types } from '../reducers/todoReducer';
 import { addTodo } from './sagas';
 
 export default function* rootSaga() {

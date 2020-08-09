@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
-import { Types } from '../';
+import { Types } from '../reducers/todoReducer';
 //import api from '../../../services/api';
 
 //import { loadSuccess, loadFailure } from './actions';
@@ -16,12 +16,12 @@ export function* load() {
   }
 }
 
-export function* addTodo(arg:any) {
+export function* addTodo(arg:any) { 
   try {
 
-    const datas = yield select(reducer => reducer.reducerTodo.data);
+    const datas = yield select(reducer => reducer.reducerTodo.data); 
     
-   yield put({type:Types.LOAD_REQUEST, payload:{data: [...datas, arg.payload.data]}});
+   yield put({type:Types.LOAD_SUCCCES, payload:{data: [...datas, arg.payload.data]}});
   } catch (err) {
     //yield put(loadFailure());
   }
