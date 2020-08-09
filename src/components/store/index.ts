@@ -1,12 +1,16 @@
-import {createStore, Reducer} from 'redux';
+import {createStore, Reducer, combineReducers, applyMiddleware, Store} from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-enum Types {
+import rootSaga from "./saga/rootSaga";
+
+export enum Types {
     LOAD_REQUEST = 'LOAD_REQUEST',
     LOAD_SUCCCES = 'LOAD_SUCCCES',
-    LOAD_FAILURE = 'LOAD_FAILURE'
+    LOAD_FAILURE = 'LOAD_FAILURE',
+    ADD_TODO = 'ADD_TODO'
   }
 
-interface State {
+export interface State {
     readonly data: []
     readonly loading: boolean
     readonly error: boolean
@@ -18,7 +22,7 @@ const INITIAL_STATE:State={
     error:false
 };
 
-const reducer:Reducer = (state = INITIAL_STATE, action)=> {
+const reducer:Reducer = (state = INITIAL_STATE, action)=> { 
 
     switch(action.type){
 
@@ -43,6 +47,14 @@ const reducer:Reducer = (state = INITIAL_STATE, action)=> {
     
 };
 
-const store = createStore(reducer);
+const reducers = combineReducers({
+    reducerTodo:reducer
+  });
 
+export type reducers = ReturnType<typeof reducers>
+
+const sagaMiddleware = createSagaMiddleware();
+const store:Store = createStore(reducers, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
 export default store;
